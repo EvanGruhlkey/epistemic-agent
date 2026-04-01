@@ -6,6 +6,7 @@ from typing import Literal
 from epistemic.classifier import EpistemicClassifier
 from epistemic.extractor import ClaimExtractor
 from epistemic.formatter import OutputFormatter
+from epistemic.memory import InMemoryClaimStore
 from epistemic.models import Claim, Violation
 from epistemic.rules import RuleEngine
 
@@ -28,9 +29,13 @@ def run_pipeline(
     classifier: EpistemicClassifier | None = None,
     rules: RuleEngine | None = None,
     formatter: OutputFormatter | None = None,
+    store: InMemoryClaimStore | None = None,
+    persist_on_ok: bool = False,
 ) -> PipelineResult:
     """
-    raw LLM (or tool) text → structured claims → classify → optional factual gate → rules → text.
+    raw LLM (or tool) text -> structured claims -> classify-> optional factual gate-> rules -> text.
+
+    If ``store`` is set and ``persist_on_ok`` is True, successful runs are written to the store.
     """
     ex = extractor or ClaimExtractor()
     clf = classifier or EpistemicClassifier()
@@ -50,5 +55,8 @@ def run_pipeline(
 
     if violations_list:
         return PipelineResult(claims, violations, fmt.format_blocked(violations_list), False)
+
+    if store is not None and persist_on_ok:
+        store.put_all(claims_list)
 
     return PipelineResult(claims, violations, fmt.format(claims_list), True)
