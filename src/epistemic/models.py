@@ -51,3 +51,12 @@ class Claim:
             raise ValueError("Claim.id must be non-empty")
         if not (0.0 <= self.confidence <= 1.0):
             raise ValueError("confidence must be in [0, 1]")
+
+
+@dataclass(frozen=True, slots=True)
+class Violation:
+    """Single failed policy check against a claim."""
+
+    rule_id: str
+    claim_id: str
+    message: str
