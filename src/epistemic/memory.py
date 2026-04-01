@@ -85,3 +85,33 @@ class InMemoryClaimStore:
 
     def clear(self) -> None:
         self._claims.clear()
+
+
+def merge_dependency_closure(
+    batch: Iterable[Claim],
+    store: InMemoryClaimStore,
+    *,
+    now: datetime | None = None,
+) -> list[Claim]:
+    """
+    Union of ``batch`` plus any transitive dependencies found in ``store`` (effective/stale-aware).
+
+    IDs present in ``batch`` win over store rows with the same id.
+    """
+    indexed: dict[str, Claim] = {c.id: c for c in batch}
+    pending = list(indexed.keys())
+    at = now if now is not None else utc_now()
+    i = 0
+    while i < len(pending):
+        cid = pending[i]
+        i += 1
+        c = indexed[cid]
+        for dep_id in c.dependencies:
+            if dep_id in indexed:
+                continue
+            ext = store.get_effective(dep_id, now=at)
+            if ext is None:
+                continue
+            indexed[dep_id] = ext
+            pending.append(dep_id)
+    return list(indexed.values())

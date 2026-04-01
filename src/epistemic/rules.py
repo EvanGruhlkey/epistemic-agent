@@ -7,28 +7,36 @@ from epistemic.models import Claim, EpistemicType, Violation
 PresentationCheck = Callable[[dict[str, Claim]], list[Violation]]
 
 _FACTUAL = "factual"
-_ALLOWED_FOR_FACTUAL = frozenset({EpistemicType.OBSERVED, EpistemicType.RETRIEVED})
+
+
+def _strong_enough_for_factual(c: Claim) -> bool:
+    """Observed/retrieved, or estimated with explicit uncertainty flagged in metadata."""
+    if c.epistemic_type in (EpistemicType.OBSERVED, EpistemicType.RETRIEVED):
+        return True
+    if c.epistemic_type is EpistemicType.ESTIMATED:
+        return bool(c.metadata.get("uncertainty_disclosed"))
+    return False
 
 
 def _rule_factual_top_claim(indexed: dict[str, Claim]) -> list[Violation]:
-    """Claims marked for factual presentation must be observed or retrieved only."""
+    """Claims marked for factual presentation must be epistemically strong enough (see _strong_enough_for_factual)."""
     out: list[Violation] = []
     for c in indexed.values():
         if c.metadata.get("presentation") != _FACTUAL:
             continue
-        if c.epistemic_type not in _ALLOWED_FOR_FACTUAL:
+        if not _strong_enough_for_factual(c):
             out.append(
                 Violation(
                     "factual_requires_observed_or_retrieved",
                     c.id,
-                    f"factual presentation requires observed or retrieved type; got {c.epistemic_type.value}",
+                    f"factual presentation requires observed, retrieved, or disclosed estimate; got {c.epistemic_type.value}",
                 )
             )
     return out
 
 
 def _rule_factual_dependency_chain(indexed: dict[str, Claim]) -> list[Violation]:
-    """Factual claims may not depend on non-factual epistemic types."""
+    """Factual claims may not depend on weak epistemic types."""
     out: list[Violation] = []
     for c in indexed.values():
         if c.metadata.get("presentation") != _FACTUAL:
@@ -37,7 +45,7 @@ def _rule_factual_dependency_chain(indexed: dict[str, Claim]) -> list[Violation]
             dep = indexed.get(dep_id)
             if dep is None:
                 continue
-            if dep.epistemic_type not in _ALLOWED_FOR_FACTUAL:
+            if not _strong_enough_for_factual(dep):
                 out.append(
                     Violation(
                         "factual_requires_strong_dependencies",

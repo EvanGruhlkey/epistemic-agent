@@ -6,8 +6,8 @@ from typing import Literal
 from epistemic.classifier import EpistemicClassifier
 from epistemic.extractor import ClaimExtractor
 from epistemic.formatter import OutputFormatter
-from epistemic.memory import InMemoryClaimStore
-from epistemic.models import Claim, Violation
+from epistemic.memory import InMemoryClaimStore, merge_dependency_closure
+from epistemic.models import Claim, Violation, utc_now
 from epistemic.rules import RuleEngine
 
 PresentationMode = Literal["factual", "transparent"]
@@ -31,11 +31,15 @@ def run_pipeline(
     formatter: OutputFormatter | None = None,
     store: InMemoryClaimStore | None = None,
     persist_on_ok: bool = False,
+    resolve_dependencies_from_store: bool = False,
 ) -> PipelineResult:
     """
-    raw LLM (or tool) text -> structured claims -> classify-> optional factual gate-> rules -> text.
+    raw LLM (or tool) text -> structured claims -> classify -> optional factual gate -> rules -> text.
 
     If ``store`` is set and ``persist_on_ok`` is True, successful runs are written to the store.
+
+    If ``resolve_dependencies_from_store`` is True, the rule engine also sees dependency claims
+    loaded from ``store`` (staleness applied); formatted output still uses only the extracted batch.
     """
     ex = extractor or ClaimExtractor()
     clf = classifier or EpistemicClassifier()
@@ -49,8 +53,12 @@ def run_pipeline(
             replace(c, metadata={**c.metadata, "presentation": "factual"}) for c in claims_list
         ]
 
+    evaluation_claims: list[Claim] = claims_list
+    if store is not None and resolve_dependencies_from_store:
+        evaluation_claims = merge_dependency_closure(claims_list, store, now=utc_now())
+
     claims = tuple(claims_list)
-    violations_list = eng.evaluate(claims)
+    violations_list = eng.evaluate(evaluation_claims)
     violations = tuple(violations_list)
 
     if violations_list:

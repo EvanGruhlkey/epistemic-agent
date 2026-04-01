@@ -3,7 +3,7 @@
 from epistemic.classifier import EpistemicClassifier
 from epistemic.extractor import ClaimExtractor
 from epistemic.formatter import OutputFormatter
-from epistemic.memory import InMemoryClaimStore, apply_staleness
+from epistemic.memory import InMemoryClaimStore, apply_staleness, merge_dependency_closure
 from epistemic.models import Claim, EpistemicType, SourceKind, Violation
 from epistemic.pipeline import PipelineResult, run_pipeline
 from epistemic.rules import RuleEngine
@@ -14,6 +14,7 @@ __all__ = [
     "EpistemicClassifier",
     "EpistemicType",
     "InMemoryClaimStore",
+    "merge_dependency_closure",
     "OutputFormatter",
     "PipelineResult",
     "RuleEngine",
