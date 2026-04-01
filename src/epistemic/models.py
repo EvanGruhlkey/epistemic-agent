@@ -18,6 +18,7 @@ class EpistemicType(str, Enum):
     INFERRED = "inferred"  # derived by reasoning; not directly asserted by source
     ASSUMED = "assumed"  # explicit hypothesis for continuation
     ESTIMATED = "estimated"  # numeric or qualitative unknown with model/interval
+    USER_STATED = "user_stated"  # attributed to the end user (distinct from observed world state)
     STALE = "stale"  # was valid; validity timebounded or invalidated
 
 

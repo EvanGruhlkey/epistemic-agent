@@ -32,5 +32,6 @@ def _label_for(t: EpistemicType) -> str:
         EpistemicType.INFERRED: "[inferred - not verified]",
         EpistemicType.ASSUMED: "[assumption]",
         EpistemicType.ESTIMATED: "[estimate]",
-        EpistemicType.STALE: "[may be outdated]",
+        EpistemicType.USER_STATED: "[user stated - not verified]",
+        EpistemicType.STALE: "[may be outdated - refresh before relying]",
     }[t]

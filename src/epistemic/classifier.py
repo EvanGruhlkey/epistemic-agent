@@ -44,7 +44,7 @@ def _default_type_for_source(source: SourceKind) -> EpistemicType:
     if source in (SourceKind.TOOL, SourceKind.DOCUMENT):
         return EpistemicType.RETRIEVED
     if source is SourceKind.USER:
-        return EpistemicType.OBSERVED
+        return EpistemicType.USER_STATED
     if source in (SourceKind.MODEL, SourceKind.INFERENCE, SourceKind.UNKNOWN):
         return EpistemicType.INFERRED
     if source is SourceKind.SYSTEM:

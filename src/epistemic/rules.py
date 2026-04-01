@@ -1,5 +1,17 @@
 from __future__ import annotations
 
+"""
+Runtime policy for first-class epistemic types (not prompt styling).
+
+Core constraints reflected here:
+
+- **Assumptions / user hearsay / inference** are not promoted to world-factual presentation
+  (:func:`_strong_enough_for_factual`, ``presentation == "factual"``).
+- **Estimates** must carry uncertainty metadata on every estimate claim.
+- **Stale** rows must record a refresh before use (``metadata["refreshed"]``).
+- **Inferred** segments must declare premise claim ids (``dependencies``), unless explicitly waived.
+"""
+
 from collections.abc import Callable, Iterable
 
 from epistemic.models import Claim, EpistemicType, Violation
@@ -10,12 +22,71 @@ _FACTUAL = "factual"
 
 
 def _strong_enough_for_factual(c: Claim) -> bool:
-    """Observed/retrieved, or estimated with explicit uncertainty flagged in metadata."""
+    """World-facing factual presentation: not user hearsay, not inference, assumptions, or stale."""
     if c.epistemic_type in (EpistemicType.OBSERVED, EpistemicType.RETRIEVED):
         return True
     if c.epistemic_type is EpistemicType.ESTIMATED:
-        return bool(c.metadata.get("uncertainty_disclosed"))
+        return _has_uncertainty_marker(c)
     return False
+
+
+def _has_uncertainty_marker(c: Claim) -> bool:
+    return bool(c.metadata.get("uncertainty_disclosed") or c.metadata.get("uncertainty_marked"))
+
+
+def _rule_inferred_requires_premises(indexed: dict[str, Claim]) -> list[Violation]:
+    """Inferred claims must cite supporting premises (dependency ids), unless explicitly waived."""
+    out: list[Violation] = []
+    for c in indexed.values():
+        if c.epistemic_type is not EpistemicType.INFERRED:
+            continue
+        if c.metadata.get("inference_without_premises_allowed"):
+            continue
+        if not c.dependencies:
+            out.append(
+                Violation(
+                    "inferred_requires_premises",
+                    c.id,
+                    "inferred claims must list premise claim ids in dependencies",
+                )
+            )
+    return out
+
+
+def _rule_estimated_must_mark_uncertainty(indexed: dict[str, Claim]) -> list[Violation]:
+    """Estimates must carry uncertainty disclosure metadata (or text markers via uncertainty_marked)."""
+    out: list[Violation] = []
+    for c in indexed.values():
+        if c.epistemic_type is not EpistemicType.ESTIMATED:
+            continue
+        if _has_uncertainty_marker(c):
+            continue
+        out.append(
+            Violation(
+                "estimated_requires_uncertainty_marker",
+                c.id,
+                "estimates must set metadata uncertainty_disclosed or uncertainty_marked",
+            )
+        )
+    return out
+
+
+def _rule_stale_must_be_refreshed(indexed: dict[str, Claim]) -> list[Violation]:
+    """Stale rows cannot be used until refresh is recorded (re-fetch or operator ack)."""
+    out: list[Violation] = []
+    for c in indexed.values():
+        if c.epistemic_type is not EpistemicType.STALE:
+            continue
+        if c.metadata.get("refreshed"):
+            continue
+        out.append(
+            Violation(
+                "stale_requires_refresh",
+                c.id,
+                "stale claims must be refreshed (set metadata refreshed=True after revalidation) before use",
+            )
+        )
+    return out
 
 
 def _rule_factual_top_claim(indexed: dict[str, Claim]) -> list[Violation]:
@@ -73,6 +144,9 @@ def _rule_unresolved_dependencies(indexed: dict[str, Claim]) -> list[Violation]:
 
 
 _DEFAULT_RULES: tuple[PresentationCheck, ...] = (
+    _rule_inferred_requires_premises,
+    _rule_estimated_must_mark_uncertainty,
+    _rule_stale_must_be_refreshed,
     _rule_factual_top_claim,
     _rule_factual_dependency_chain,
     _rule_unresolved_dependencies,
