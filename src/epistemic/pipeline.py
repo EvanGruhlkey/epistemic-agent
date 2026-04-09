@@ -62,6 +62,24 @@ def run_pipeline(
     violations = tuple(violations_list)
 
     if violations_list:
+        withheld_ids = {v.claim_id for v in violations_list}
+        shown_list = [c for c in claims_list if c.id not in withheld_ids]
+        if (
+            presentation_mode == "factual"
+            and shown_list
+            and len(shown_list) < len(claims_list)
+        ):
+            body = fmt.format(shown_list)
+            footer_lines = "\n".join(
+                f"  - [{v.claim_id}] ({v.rule_id}) {v.message}" for v in violations_list
+            )
+            text = (
+                f"{body}\n\n---\n"
+                "The following were not asserted as fact under factual mode:\n"
+                f"{footer_lines}"
+            )
+            return PipelineResult(claims, violations, text, False)
+
         return PipelineResult(claims, violations, fmt.format_blocked(violations_list), False)
 
     if store is not None and persist_on_ok:

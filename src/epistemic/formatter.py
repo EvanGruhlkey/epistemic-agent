@@ -9,29 +9,49 @@ class OutputFormatter:
     """User-facing text with epistemic transparency (no HTML/UI)."""
 
     def format(self, claims: Sequence[Claim]) -> str:
-        lines = [_format_claim_line(c) for c in claims]
-        return "\n\n".join(lines) if lines else ""
+        blocks = [_format_claim_block(c) for c in claims]
+        return "\n\n".join(blocks) if blocks else ""
 
     def format_blocked(self, violations: Sequence[Violation]) -> str:
         if not violations:
-            return "[epistemic policy] Output blocked (no details)."
+            return "No output was produced: policy checks reported no details."
         body = "\n".join(f"  - {v.rule_id} [{v.claim_id}]: {v.message}" for v in violations)
-        return "[epistemic policy] Output blocked:\n" + body
+        return (
+            "Output withheld pending policy:\n"
+            f"{body}\n"
+            "Tune presentation mode, premises, or metadata, then retry."
+        )
 
 
-def _format_claim_line(c: Claim) -> str:
-    label = _label_for(c.epistemic_type)
-    conf = f" (confidence {c.confidence:.0%})" if c.confidence < 1.0 else ""
-    return f"{label}{conf}\n{c.text.strip()}"
+def _confidence_sentence(c: Claim) -> str:
+    if c.confidence >= 1.0:
+        return ""
+    return f" Stated confidence: {c.confidence:.0%}."
 
 
-def _label_for(t: EpistemicType) -> str:
+def _format_claim_block(c: Claim) -> str:
+    prose = _prose_for_type(c.epistemic_type)
+    conf = _confidence_sentence(c)
+    return f"{prose}{conf}\n\n{c.text.strip()}"
+
+
+def _prose_for_type(t: EpistemicType) -> str:
     return {
-        EpistemicType.OBSERVED: "[observed]",
-        EpistemicType.RETRIEVED: "[retrieved]",
-        EpistemicType.INFERRED: "[inferred - not verified]",
-        EpistemicType.ASSUMED: "[assumption]",
-        EpistemicType.ESTIMATED: "[estimate]",
-        EpistemicType.USER_STATED: "[user stated - not verified]",
-        EpistemicType.STALE: "[may be outdated - refresh before relying]",
+        EpistemicType.OBSERVED: (
+            "This claim reflects a direct tool or API result (as reported to the system)."
+        ),
+        EpistemicType.RETRIEVED: (
+            "This claim was retrieved from a source and is reproduced here as given."
+        ),
+        EpistemicType.INFERRED: "This claim is inferred and has not been verified.",
+        EpistemicType.ASSUMED: (
+            "This is a working assumption for the rest of the reasoning; not an established fact."
+        ),
+        EpistemicType.ESTIMATED: "Estimated from incomplete information.",
+        EpistemicType.USER_STATED: (
+            "This reflects what the user stated; it has not been independently verified."
+        ),
+        EpistemicType.STALE: (
+            "This information may be outdated; refresh or re-validate before relying on it."
+        ),
     }[t]
