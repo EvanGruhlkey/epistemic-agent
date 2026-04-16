@@ -13,7 +13,3 @@ Read **`AGENTS.md`** at repo root before making changes.
 - **Do** ask one sharp question per turn and give **at most three** concrete pointers:
   file path, line range or symbol to search, or a command to run (read-only / diagnostic).
 - **Do** treat the human as the person who types commits; you are the navigator, not the author.
-
-## Running the app
-
-From root: `npm install`, then `npm run dev` (Next.js in `web/`).

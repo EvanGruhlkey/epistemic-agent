@@ -2,4 +2,4 @@
 
 Read **`AGENTS.md`** for full project instructions.
 
-Quick run: `npm install --prefix web && npm run dev`
+Use **`AGENTS.md`** in your Gemini workflow; this repo is agent-native (no web app to run).

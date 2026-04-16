@@ -1,29 +1,64 @@
 # Duck Hotline
 
-Socratic pair programming: questions and pointers only — you keep the keyboard. See **AGENTS.md** for agent rules. **Claude Code:** `/duck-hotline`.
+**Socratic pair programming in your IDE** — the agent asks sharp questions and points you to files, symbols, and checks. It does **not** write your code for you.
+
+| Where you work | How to use it |
+|----------------|---------------|
+| **Cursor** | Open this repo; rule **`duck-hotline`** applies (see `.cursor/rules/duck-hotline.mdc`). |
+| **Claude Code** | Run **`/duck-hotline`** (skill: `.claude/skills/duck-hotline/SKILL.md`). |
+| **Other agents** | Read **`AGENTS.md`** at repo root — single source of truth. |
 
 ## Quick start
 
+1. Clone or copy this repo into your project (or use it as a reference and copy `AGENTS.md` + rules/skills into yours).
+2. Open the folder in **Cursor** or **Claude Code** (or any agent that reads project instructions).
+3. Read **`AGENTS.md`** so expectations match: one question per turn, at most three look-here hints, no solution code dumps.
+4. Start a chat and describe the bug or design problem; the agent navigates — you type the fixes.
+
+No install step is required for the hotline behavior itself.
+
+## Prerequisites
+
+- An AI coding assistant that can read project files and follow **`AGENTS.md`** (or your ported copy).
+
+**Optional — Python package** (tests and `src/epistemic/` experiments):
+
 ```bash
-npm install --prefix web
-npm run dev
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+pip install -e ".[dev]"
+pytest
 ```
 
-Open http://localhost:3000. Optional: `web/.env.local` with `OPENAI_API_KEY` for browser replies.
+## How it works
 
-### Windows: SWC / “not a valid Win32 application”
+1. **Product rules** — No codegen for the user’s repo; hypotheses over authority; hints grounded in what was actually read or searched.
+2. **One turn, one focus** — One clarifying question plus up to three pointers (`path`, line range, or symbol / `rg` pattern).
+3. **Multiple entrypoints** — After editing **`AGENTS.md`**, keep **`CLAUDE.md`**, **`GEMINI.md`**, and Cursor rules in sync manually (or run `scripts/sync-agent-rules.sh` as a quick reminder check).
 
-If `next dev` fails loading `@next/swc-win32-x64-msvc` or lockfile patch errors with `ENOWORKSPACES`, do a **clean install** in `web` only (this repo does **not** use npm workspaces so Next can manage its own lockfile):
+## Project structure
 
-```powershell
-Remove-Item -Recurse -Force node_modules, web\node_modules -ErrorAction SilentlyContinue
-Remove-Item -Force package-lock.json, web\package-lock.json -ErrorAction SilentlyContinue
-npm install --prefix web
-npm run dev
+```
+.
+├── AGENTS.md                 # Rules for all agents (source of truth)
+├── CLAUDE.md                 # Pointer to AGENTS.md + Claude skill
+├── GEMINI.md                 # Pointer to AGENTS.md
+├── .cursor/rules/            # Cursor rule (duck-hotline)
+├── .claude/skills/duck-hotline/
+├── scripts/sync-agent-rules.sh
+├── src/epistemic/            # Optional Python library / experiments
+├── tests/
+└── pyproject.toml
 ```
 
-Repos on **OneDrive** sometimes corrupt native `.node` binaries; moving the project off OneDrive or a clean reinstall usually fixes it. `@next/swc-wasm-nodejs` is listed in `web` as a fallback when native SWC fails.
+## Commands
 
-Layout matches agent-first templates (AGENTS.md, `.cursor/rules`, `.claude/skills`). Legacy Python: `src/epistemic/`, `pip install -e .`.
+| Command | Purpose |
+|---------|---------|
+| `pip install -e ".[dev]"` | Editable install + dev deps (pytest, etc.). |
+| `pytest` | Run tests under `tests/`. |
+| `./scripts/sync-agent-rules.sh` | Sanity check that `AGENTS.md` exists; reminds you to sync other agent files (bash). |
+
+## License
 
 MIT

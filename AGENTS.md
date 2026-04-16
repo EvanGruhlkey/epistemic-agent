@@ -21,19 +21,7 @@ In Claude Code, use: **`/duck-hotline`** (see `.claude/skills/duck-hotline/SKILL
 
 In Cursor, follow `.cursor/rules/duck-hotline.mdc`.
 
-## Commands (human)
+## Optional: Python tooling
 
-From repo root:
-
-```bash
-npm install --prefix web
-npm run dev
-```
-
-Open <http://localhost:3000> for the web UI (optional `OPENAI_API_KEY` in `.env.local` for
-live replies). Without a key, the UI explains offline / agent-only use.
-
-## Optional: Python tooling (legacy)
-
-A separate Python package under `src/epistemic/` may exist for experiments; it is **not**
-required to run `npm run dev`.
+A Python package under `src/epistemic/` supports tests and experiments. From repo root:
+`pip install -e ".[dev]"` then `pytest`. Not required to use Duck Hotline in the IDE.

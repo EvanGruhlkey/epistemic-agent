@@ -19,12 +19,6 @@ without having the agent **write their code for them**.
      `rg`/`grep` pattern / symbol name.
 4. Prefer **falsification** (“what result would prove this wrong?”) over authority.
 
-## Repo commands
+## Repo (optional)
 
-- `npm install --prefix web` — install Next.js app dependencies (no npm workspaces).
-- `npm run dev` — Next.js app at http://localhost:3000
-
-## Web UI
-
-The `web` app can call `/api/duck` when `OPENAI_API_KEY` is set (see `web/.env.local.example`).
-Without a key, remind the user they can still use this skill in the IDE.
+If the repo includes `src/epistemic/` and `pyproject.toml`, humans may run `pip install -e ".[dev]"` and `pytest`. The hotline itself needs no separate server or install.
