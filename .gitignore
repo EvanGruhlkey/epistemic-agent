@@ -13,3 +13,7 @@ venv/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+node_modules/
+.next/
+out/
+web/.env.local
