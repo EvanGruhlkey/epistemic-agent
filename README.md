@@ -49,6 +49,7 @@ Open this repo in your agent, run **`/rubber-duck-learning`** in Claude Code (or
 ## Prerequisites
 
 - An AI coding agent (see [Supported Platforms](#supported-platforms))
+- [Node.js](https://nodejs.org/) 18+ **only if** you want to run **`npm run check`** (validates the template layout)
 
 ## Tech Stack
 
@@ -84,15 +85,19 @@ Open this repo in your agent, run **`/rubber-duck-learning`** in Claude Code (or
 ├── CLAUDE.md                              # Claude Code pointer + skill name
 ├── GEMINI.md                              # Gemini CLI pointer
 ├── LICENSE
+├── package.json                           # npm script: check (optional)
 ├── .cursor/rules/rubber-duck-learning.mdc
 ├── .claude/skills/rubber-duck-learning/SKILL.md
 └── scripts/
+    ├── check-setup.mjs                    # Validates files + skill slug consistency
     └── sync-agent-rules.sh                # Sanity check; reminds you to keep entrypoints in sync
 ```
 
 ## Commands
 
 ```bash
+npm run check # optional: verify template layout (needs Node 18+)
+node scripts/check-setup.mjs       # same, without npm
 bash scripts/sync-agent-rules.sh   # verify AGENTS.md exists; sync reminder
 ```
 

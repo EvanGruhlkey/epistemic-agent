@@ -1,0 +1,11 @@
+{
+  "name": "rubber-duck-learning",
+  "private": true,
+  "description": "Agent instructions template (see README). Runnable scripts only.",
+  "scripts": {
+    "check": "node scripts/check-setup.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
