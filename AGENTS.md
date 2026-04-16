@@ -26,7 +26,7 @@ In Cursor, follow `.cursor/rules/duck-hotline.mdc`.
 From repo root:
 
 ```bash
-npm install
+npm install --prefix web
 npm run dev
 ```
 

@@ -2,6 +2,7 @@
 
 from epistemic.classifier import EpistemicClassifier
 from epistemic.extractor import PREMISE_MODEL_TRANSCRIPT_ID, ClaimExtractor
+from epistemic.llm_client import generate_model_answer, run_llm_pipeline
 from epistemic.formatter import OutputFormatter
 from epistemic.memory import InMemoryClaimStore, apply_staleness, merge_dependency_closure
 from epistemic.models import Claim, EpistemicType, SourceKind, Violation
@@ -25,6 +26,7 @@ __all__ = [
     "claim_to_jsonable",
     "dumps_pipeline_result",
     "EpistemicClassifier",
+    "generate_model_answer",
     "EpistemicType",
     "InMemoryClaimStore",
     "loads_pipeline_result",
@@ -40,5 +42,6 @@ __all__ = [
     "violation_from_jsonable",
     "violation_to_jsonable",
     "apply_staleness",
+    "run_llm_pipeline",
     "run_pipeline",
 ]

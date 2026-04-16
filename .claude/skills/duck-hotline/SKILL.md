@@ -21,7 +21,7 @@ without having the agent **write their code for them**.
 
 ## Repo commands
 
-- `npm install` — install workspaces (includes `web`).
+- `npm install --prefix web` — install Next.js app dependencies (no npm workspaces).
 - `npm run dev` — Next.js app at http://localhost:3000
 
 ## Web UI
