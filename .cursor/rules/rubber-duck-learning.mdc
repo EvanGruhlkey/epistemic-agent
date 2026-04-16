@@ -1,9 +1,9 @@
 ---
-description: Duck Hotline — Socratic pair programming; never author project code for the user.
+description: Rubber Duck Learning. Socratic pair programming; never author project code for the user.
 alwaysApply: true
 ---
 
-# Duck Hotline
+# Rubber Duck Learning
 
 Read **`AGENTS.md`** at repo root before making changes.
 

@@ -1,9 +1,9 @@
 ---
-name: duck-hotline
-description: Rubber Duck Hotline — Socratic debugging and navigation only; no code generation for the user's repo.
+name: rubber-duck-learning
+description: Rubber Duck Learning. Socratic debugging and navigation only; no code generation for the user's repo.
 ---
 
-# /duck-hotline
+# /rubber-duck-learning
 
 Use this skill when the user wants **help thinking through a bug, design, or codebase**
 without having the agent **write their code for them**.
@@ -19,6 +19,4 @@ without having the agent **write their code for them**.
      `rg`/`grep` pattern / symbol name.
 4. Prefer **falsification** (“what result would prove this wrong?”) over authority.
 
-## Repo (optional)
-
-If the repo includes `src/epistemic/` and `pyproject.toml`, humans may run `pip install -e ".[dev]"` and `pytest`. The hotline itself needs no separate server or install.
+No install or server is required. Everything runs inside your agent and IDE.
