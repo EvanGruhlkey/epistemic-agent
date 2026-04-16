@@ -8,10 +8,6 @@ A reusable template for **Socratic pair programming** with AI coding agents. The
 
 Open this repo in your agent, run **`/rubber-duck-learning`** in Claude Code (or use the **Cursor** rule), and you get **one clarifying question** plus **at most three look-here hints** per turn while you stay on the keyboard.
 
-## Demo
-
-> When you have a good recording, drop a screenshot or link here (for example a short **`/rubber-duck-learning`** session on a real bug). Until then, jump to [Quick Start](#quick-start).
-
 ## Quick Start
 
 1. **Clone this repository**
