@@ -49,7 +49,6 @@ Open this repo in your agent, run **`/rubber-duck-learning`** in Claude Code (or
 ## Prerequisites
 
 - An AI coding agent (see [Supported Platforms](#supported-platforms))
-- [Node.js](https://nodejs.org/) 18+ **only if** you want to run **`npm run check`** (validates the template layout)
 
 ## Tech Stack
 
@@ -64,6 +63,7 @@ Open this repo in your agent, run **`/rubber-duck-learning`** in Claude Code (or
 2. **One turn, one focus**: each reply is **one** clarifying question and **up to three** look-here bullets (`path`, optional line range, or a symbol / `rg` pattern).
 3. **Hypotheses, not authority**: “what would falsify this?” beats sounding sure about files it never opened.
 4. **You keep the keyboard**: no big pasted-in “here is the fix” blocks. You apply the changes.
+5. **Learning-first behavior**: **`AGENTS.md`** also encodes practical pedagogy (self-explanation, layered questions, small hints, respectful tone). See **Pedagogy in practice** there.
 
 ## Use Cases
 
@@ -85,19 +85,15 @@ Open this repo in your agent, run **`/rubber-duck-learning`** in Claude Code (or
 ├── CLAUDE.md                              # Claude Code pointer + skill name
 ├── GEMINI.md                              # Gemini CLI pointer
 ├── LICENSE
-├── package.json                           # npm script: check (optional)
 ├── .cursor/rules/rubber-duck-learning.mdc
 ├── .claude/skills/rubber-duck-learning/SKILL.md
 └── scripts/
-    ├── check-setup.mjs                    # Validates files + skill slug consistency
     └── sync-agent-rules.sh                # Sanity check; reminds you to keep entrypoints in sync
 ```
 
 ## Commands
 
 ```bash
-npm run check # optional: verify template layout (needs Node 18+)
-node scripts/check-setup.mjs       # same, without npm
 bash scripts/sync-agent-rules.sh   # verify AGENTS.md exists; sync reminder
 ```
 
