@@ -2,6 +2,15 @@
 
 <a href="https://github.com/EvanGruhlkey/rubber-duck-learning/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a> <a href="https://github.com/EvanGruhlkey/rubber-duck-learning/stargazers"><img src="https://img.shields.io/github/stars/EvanGruhlkey/rubber-duck-learning?style=flat" alt="Stars" /></a>
 
+<details open>
+<summary><strong>Pixel duck</strong> (click to hide or show)</summary>
+
+<p align="center">
+  <img src="assets/duck-pixel.svg" alt="Pixel art rubber duck" width="112" height="112" />
+</p>
+
+</details>
+
 A reusable template for **Socratic pair programming** with AI coding agents. The model asks sharp questions and points you to **files, symbols, and checks**. It does **not** write your code for you.
 
 **Recommended: [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with a strong reasoning model for best results**, but it works fine with other AI coding agents too.
@@ -85,6 +94,7 @@ Open this repo in your agent, run **`/rubber-duck-learning`** in Claude Code (or
 ├── CLAUDE.md                              # Claude Code pointer + skill name
 ├── GEMINI.md                              # Gemini CLI pointer
 ├── LICENSE
+├── assets/duck-pixel.svg               # Pixel duck (also used in README toggle)
 ├── .cursor/rules/rubber-duck-learning.mdc
 ├── .claude/skills/rubber-duck-learning/SKILL.md
 └── scripts/
