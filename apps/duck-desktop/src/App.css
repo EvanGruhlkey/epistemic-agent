@@ -1,0 +1,89 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #111826;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+}
+
+.root:active {
+  cursor: grabbing;
+}
+
+.no-drag {
+  cursor: default;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  pointer-events: none;
+}
+
+.duck-hit {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: grab;
+  line-height: 0;
+  pointer-events: auto;
+}
+
+.duck-hit:focus,
+.duck-hit:focus-visible {
+  outline: none;
+}
+
+.duck-hit:hover {
+  filter: brightness(1.08);
+}
+
+.duck-hit:active {
+  cursor: grabbing;
+  filter: brightness(0.95);
+}
+
+.duck-img {
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
