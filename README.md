@@ -3,20 +3,20 @@
 <a href="https://github.com/EvanGruhlkey/rubber-duck-learning/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a> <a href="https://github.com/EvanGruhlkey/rubber-duck-learning/stargazers"><img src="https://img.shields.io/github/stars/EvanGruhlkey/rubber-duck-learning?style=flat" alt="Stars" /></a>
 
 <p align="center">
-  <img src="docs/duck.svg" width="112" height="112" alt="Pixel art rubber duck" />
+  <img src="apps/duck-desktop/public/duck.svg" width="112" height="112" alt="Pixel art rubber duck" />
 </p>
 
-## What’s in this repo
+Hi. This repo is a small **desktop duck** you can keep on screen while you work, plus a set of **rules and habits** (`AGENTS.md`) for working with AI in a slower, more “explain it to the duck” style. There’s no website or hosted app here, just the Tauri build and the pedagogy files.
 
-| | |
-| --- | --- |
-| **Desktop duck** | [**`apps/duck-desktop/`**](./apps/duck-desktop/README.md) — Tauri app: floating pixel duck on your screen (draggable). **No web server, no marketing site.** |
-| **Pedagogy** | **[`AGENTS.md`](./AGENTS.md)** — how AI assistants should help: Socratic questions, hints, and *you* stay the author. Wired for [**Cursor**](.cursor/rules/rubber-duck-learning.mdc) and [**Claude Code**](.claude/skills/rubber-duck-learning/SKILL.md) (`/rubber-duck-learning`). |
-| **Art** | [`docs/duck.svg`](./docs/duck.svg) — source duck; the app copies/derives icons from it. |
+**Desktop duck:** [`apps/duck-desktop/`](./apps/duck-desktop/README.md) (Tauri: floating, draggable pixel duck).
 
-## Why Rubber Duck Learning?
+**Pedagogy:** [`AGENTS.md`](./AGENTS.md) (how assistants should ask questions and point you to your own code, not take it over). Hooks for [**Cursor**](.cursor/rules/rubber-duck-learning.mdc) and [**Claude Code**](.claude/skills/rubber-duck-learning/SKILL.md) (`/rubber-duck-learning`).
 
-Most AI coding tools optimize for speed. This project optimizes for **understanding**: productive struggle, short questions, and small nudges—whether you’re using the floating duck or an IDE assistant following **`AGENTS.md`**.
+**Duck art (SVG):** [`apps/duck-desktop/public/duck.svg`](./apps/duck-desktop/public/duck.svg) (what the app shows; also used when you run `npm run icons` in the app folder).
+
+## Why this exists
+
+A lot of coding AI is built to ship code fast. Rubber Duck Learning is biased toward **understanding**: short questions, small hints, and you stay in charge. That applies whether you’re staring at the desktop duck or using an assistant that follows `AGENTS.md`.
 
 ## Run the desktop duck
 
@@ -26,4 +26,4 @@ npm install
 npm run tauri dev
 ```
 
-Needs [Rust](https://www.rust-lang.org/tools/install) and [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/). Details: [`apps/duck-desktop/README.md`](./apps/duck-desktop/README.md).
+You’ll need [Rust](https://www.rust-lang.org/tools/install) and the [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/). More detail in [`apps/duck-desktop/README.md`](./apps/duck-desktop/README.md).
