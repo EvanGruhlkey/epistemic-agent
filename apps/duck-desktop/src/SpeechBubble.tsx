@@ -1,3 +1,6 @@
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
 interface SpeechBubbleProps {
   message: string;
   inputValue: string;
@@ -55,7 +58,25 @@ export function SpeechBubble({
         {reply && (
           <div className="speech-bubble-reply-wrap">
             <p className="speech-bubble-reply-label">Reply</p>
-            <div className="speech-bubble-reply">{reply}</div>
+            <div className="speech-bubble-reply markdown-reply">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  a: ({ href, children, ...rest }) => (
+                    <a
+                      {...rest}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {children}
+                    </a>
+                  ),
+                }}
+              >
+                {reply}
+              </ReactMarkdown>
+            </div>
           </div>
         )}
       </div>
