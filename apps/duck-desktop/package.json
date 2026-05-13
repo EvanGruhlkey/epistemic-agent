@@ -7,8 +7,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri",
-    "icons": "tauri icon public/duck.svg -o src-tauri/icons"
+    "tauri": "node ./scripts/tauri-env.mjs",
+    "tauri:dev": "node ./scripts/tauri-env.mjs dev",
+    "tauri:build": "node ./scripts/tauri-env.mjs build",
+    "icons": "node ./scripts/tauri-env.mjs icon public/duck.svg -o src-tauri/icons"
   },
   "dependencies": {
     "react": "^19.1.0",
