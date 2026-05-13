@@ -1,8 +1,7 @@
 # Claude Code
 
-Project instructions live in **`AGENTS.md`** (single source of truth).
+Project instructions: **`AGENTS.md`** (single source of truth for pedagogy and product rules).
 
-- Start here: [AGENTS.md](./AGENTS.md)
-- Skill: **`/rubber-duck-learning`**, `.claude/skills/rubber-duck-learning/SKILL.md`
+Skill: **`.claude/skills/rubber-duck-learning/SKILL.md`** — use **`/rubber-duck-learning`**.
 
-There is no app server. Use Rubber Duck Learning in the IDE via **`/rubber-duck-learning`** and **`AGENTS.md`** (including **Pedagogy in practice**).
+The shipable app is the **desktop duck** in `apps/duck-desktop/` (Tauri). There is no website in this repo.

@@ -1,11 +1,12 @@
 ---
-description: Rubber Duck Learning. Socratic pair programming; never author project code for the user.
 alwaysApply: true
 ---
 
 # Rubber Duck Learning
 
-Read **`AGENTS.md`** at repo root before making changes. Follow its **Product rules** and **Pedagogy in practice** sections, not only the short bullets below.
+This repo is the **desktop duck app** (`apps/duck-desktop/`) plus **Socratic pedagogy** for AI in the IDE. There is **no website** here.
+
+Read **`AGENTS.md`** at the repo root before making changes. Follow its **Product rules** and **Pedagogy in practice**—not only short bullets below.
 
 ## When helping the human
 

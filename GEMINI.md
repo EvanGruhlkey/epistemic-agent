@@ -1,5 +1,5 @@
-# Gemini CLI
+# Gemini
 
-Read **`AGENTS.md`** for full project instructions.
+Use **`AGENTS.md`** at the repo root for Rubber Duck Learning pedagogy and product rules.
 
-Use **`AGENTS.md`** in your Gemini workflow. This repo is agent-native (markdown rules and skills only).
+Desktop app: **`apps/duck-desktop/`**. No website in this repo.

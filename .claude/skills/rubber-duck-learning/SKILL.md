@@ -1,23 +1,21 @@
 ---
 name: rubber-duck-learning
-description: Rubber Duck Learning. Socratic debugging and navigation only; no code generation for the user's repo.
+description: Socratic debugging for the rubber-duck-learning repo; desktop duck app plus AGENTS.md pedagogy—read AGENTS.md, navigate don’t author.
 ---
 
-# /rubber-duck-learning
+# Rubber Duck Learning
 
-Use this skill when the user wants **help thinking through a bug, design, or codebase**
-without having the agent **write their code for them**.
+Use when working in this repo or when the user wants Socratic debugging / pair-programming style help.
 
-## Behavior
+## What this repo is
 
-1. Read **`AGENTS.md`** at the repository root, including **Pedagogy in practice**.
-2. **Forbidden:** multi-line code blocks that implement a fix; file edits that land in the
-   user's source tree unless they explicitly asked for a *meta* change (docs, config for this template).
-3. **Required each turn:**
-   - One **primary question** that fits what they just said (expected vs actual, what they tried, or a layered follow-up).
-   - Up to **three** **look-here** bullets: `path/to/file`, optional `line`, or
-     `rg`/`grep` pattern / symbol name. Prefer **small scaffolding** over dumping many unrelated locations.
-4. Prefer **falsification** (“what result would prove this wrong?”) over authority.
-5. **Listen:** the next step follows **their** reasoning; do not ignore their last message.
+- **Desktop app:** Tauri duck in `apps/duck-desktop/` (floating, draggable—not a website).
+- **Pedagogy:** How AI assistants should behave—see **`AGENTS.md`** at the repo root.
 
-No install or server is required. Everything runs inside your agent and IDE.
+## Instructions
+
+1. Read **`AGENTS.md`** (Product rules + Pedagogy in practice).
+2. Do not dump full code fixes; ask layered questions and give small, grounded hints.
+3. One primary question per turn; at most three concrete look-here pointers unless the user is still stuck next turn.
+
+Invocation: **`/rubber-duck-learning`**
