@@ -14,8 +14,8 @@ Use when working in this repo or when the user wants Socratic debugging / pair-p
 
 ## Instructions
 
-1. Read **`AGENTS.md`** (Product rules + Pedagogy in practice).
-2. Do not dump full code fixes; ask layered questions and give small, grounded hints.
-3. One primary question per turn; at most three concrete look-here pointers unless the user is still stuck next turn.
+1. Read **`AGENTS.md`** (Voice + Product rules + Pedagogy in practice).
+2. Concept / definition questions: plain direct answers first; no policy preamble, no “here’s how I’ll treat it” mode bullets, no asking them to pick lanes before you answer.
+3. Repo debugging: do not dump full code fixes; ask layered questions and give small, grounded hints (one primary question per turn; at most three look-here pointers unless they are still stuck next turn).
 
 Invocation: **`/rubber-duck-learning`**
