@@ -1,11 +1,15 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+import { SpeechBubble } from "./SpeechBubble";
 import "./App.css";
 
-/** Pixels moved before we treat duck interaction as a window drag (not a release-only tap). */
 const DUCK_DRAG_THRESHOLD = 8;
 
+const BUBBLE_HINT =
+  "What's going wrong? In one line: what did you expect, and what happened instead?";
+
 export default function App() {
+  const [bubbleOpen, setBubbleOpen] = useState(false);
   const duckDragRef = useRef<{ x: number; y: number; armed: boolean } | null>(
     null,
   );
@@ -54,7 +58,20 @@ export default function App() {
     [beginWindowDrag],
   );
 
-  const clearDuckPointer = useCallback((e: React.PointerEvent) => {
+  const onDuckPointerUp = useCallback((e: React.PointerEvent) => {
+    const wasTap = duckDragRef.current?.armed === true;
+    duckDragRef.current = null;
+    try {
+      (e.currentTarget as HTMLButtonElement).releasePointerCapture(
+        e.pointerId,
+      );
+    } catch {
+      /* ignore */
+    }
+    if (wasTap) setBubbleOpen((open) => !open);
+  }, []);
+
+  const onDuckPointerCancel = useCallback((e: React.PointerEvent) => {
     duckDragRef.current = null;
     try {
       (e.currentTarget as HTMLButtonElement).releasePointerCapture(
@@ -68,14 +85,22 @@ export default function App() {
   return (
     <div className="root" onPointerDown={onRootPointerDown}>
       <div className="stage">
+        <div className="stage-bubble-slot">
+          {bubbleOpen && <SpeechBubble message={BUBBLE_HINT} />}
+        </div>
         <button
           type="button"
           className="duck-hit no-drag"
           onPointerDown={onDuckPointerDown}
           onPointerMove={onDuckPointerMove}
-          onPointerUp={clearDuckPointer}
-          onPointerCancel={clearDuckPointer}
-          aria-label="Rubber duck — drag to move the window"
+          onPointerUp={onDuckPointerUp}
+          onPointerCancel={onDuckPointerCancel}
+          aria-expanded={bubbleOpen}
+          aria-label={
+            bubbleOpen
+              ? "Rubber duck: tap to hide hint, or drag to move window"
+              : "Rubber duck: tap for a hint, or drag to move window"
+          }
         >
           <img className="duck-img" src="/duck.svg" alt="Rubber duck" />
         </button>
