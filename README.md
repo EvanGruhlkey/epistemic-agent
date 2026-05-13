@@ -6,17 +6,15 @@
   <img src="apps/duck-desktop/public/duck.svg" width="112" height="112" alt="Pixel art rubber duck" />
 </p>
 
-## What’s in this repo
+This repo is a desktop rubber duck for developers who want help thinking through code.
 
-| | |
-| --- | --- |
-| **Desktop duck** | [**`apps/duck-desktop/`**](./apps/duck-desktop/README.md). Tauri app: floating pixel duck on your screen (draggable). **No web server, no marketing site.** |
-| **Pedagogy** | [**AGENTS.md**](./AGENTS.md). How AI assistants should help: Socratic questions, hints, and *you* stay the author. Wired for [**Cursor**](.cursor/rules/rubber-duck-learning.mdc) and [**Claude Code**](.claude/skills/rubber-duck-learning/SKILL.md) (`/rubber-duck-learning`). |
-| **Art** | [`apps/duck-desktop/public/duck.svg`](./apps/duck-desktop/public/duck.svg): pixel duck used in the app; [`npm run icons`](./apps/duck-desktop/README.md) also derives bundle icons from it. |
+Rubber Duck Learning gives you a movable duck icon that stays on your screen while you code. Click it when you are stuck, paste an error or describe the bug, and it responds with Socratic questions, file-reading prompts, and small hints instead of dumping the solution.
 
-## Why Rubber Duck Learning?
+## Why
 
-Most AI coding tools optimize for speed. This project optimizes for **understanding**: productive struggle, short questions, and small nudges, whether you’re using the floating duck or an IDE assistant following **`AGENTS.md`**.
+Most AI coding tools optimize for speed. Rubber Duck Learning optimizes for understanding.
+
+It helps you debug, trace, and reason through code while keeping you in control.
 
 ## Run the desktop duck
 
@@ -27,3 +25,5 @@ npm run tauri dev
 ```
 
 Needs [Rust](https://www.rust-lang.org/tools/install) and [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/). Details: [`apps/duck-desktop/README.md`](./apps/duck-desktop/README.md).
+
+This repo is inspired by real life rubber duck debugging ifykyk
